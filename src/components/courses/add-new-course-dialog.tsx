@@ -399,7 +399,7 @@ export function AddNewCourseDialog() {
             name="notifyByEmail"
             control={form.control}
             render={({ field }) => (
-              <Field orientation="horizontal">
+              <Field orientation="horizontal" className="rounded-lg border p-4">
                 <Switch
                   id="notifyByEmail"
                   checked={field.value}
