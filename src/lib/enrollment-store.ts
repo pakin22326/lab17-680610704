@@ -6,6 +6,7 @@ import {
   courses as initialCourses,
   enrollments as initialEnrollments,
 } from "@/lib/mock-data";
+
 import type { Course, Enrollment, Student } from "@/lib/types";
 
 type EnrollmentStore = {
@@ -15,8 +16,12 @@ type EnrollmentStore = {
 
   addStudent: (student: Student) => void;
   removeStudent: (studentId: string) => void;
+
   addCourse: (course: Course) => void;
-  removeInstructorFromCourse: (courseId: string, instructor: string) => void;
+  removeInstructorFromCourse: (
+    courseId: string,
+    instructorEmail: string,
+  ) => void;
   removeCourse: (courseId: string) => void;
 };
 
@@ -28,27 +33,33 @@ export const useEnrollmentStore = create<EnrollmentStore>()(
       enrollments: initialEnrollments,
 
       addStudent: (student) =>
-        set((state) => ({ students: [...state.students, student] })),
+        set((state) => ({
+          students: [...state.students, student],
+        })),
 
       removeStudent: (studentId) =>
         set((state) => ({
-          students: state.students.filter((s) => s.studentId !== studentId),
+          students: state.students.filter(
+            (student) => student.studentId !== studentId,
+          ),
           enrollments: state.enrollments.filter(
-            (e) => e.studentId !== studentId,
+            (enrollment) => enrollment.studentId !== studentId,
           ),
         })),
 
       addCourse: (course) =>
-        set((state) => ({ courses: [...state.courses, course] })),
+        set((state) => ({
+          courses: [...state.courses, course],
+        })),
 
-      removeInstructorFromCourse: (courseId, instructor) =>
+      removeInstructorFromCourse: (courseId, instructorEmail) =>
         set((state) => ({
           courses: state.courses.map((course) =>
             course.courseId === courseId
               ? {
                   ...course,
                   instructors: course.instructors.filter(
-                    (name) => name !== instructor,
+                    (instructor) => instructor.email !== instructorEmail,
                   ),
                 }
               : course,
@@ -57,10 +68,22 @@ export const useEnrollmentStore = create<EnrollmentStore>()(
 
       removeCourse: (courseId) =>
         set((state) => ({
-          courses: state.courses.filter((c) => c.courseId !== courseId),
-          enrollments: state.enrollments.filter((e) => e.courseId !== courseId),
+          courses: state.courses.filter(
+            (course) => course.courseId !== courseId,
+          ),
+          enrollments: state.enrollments.filter(
+            (enrollment) => enrollment.courseId !== courseId,
+          ),
         })),
     }),
-    // เก็บเฉพาะ students/courses ลง localStorage — enrollments ไม่ persist
+
+    {
+      name: "lab17-2569-680610704",
+
+      partialize: (state) => ({
+        students: state.students,
+        courses: state.courses,
+      }),
+    },
   ),
 );
