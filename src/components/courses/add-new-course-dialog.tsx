@@ -278,7 +278,7 @@ export function AddNewCourseDialog() {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="description">รายละเอียด</FieldLabel>
+                <FieldLabel htmlFor="description">รายละเอียด(ไม่บังคับ)</FieldLabel>
 
                 <Textarea
                   {...field}
