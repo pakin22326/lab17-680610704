@@ -305,7 +305,14 @@ export function AddNewCourseDialog() {
 
           {/* ผู้สอน */}
           <Field data-invalid={!!instructorsRootError}>
-            <FieldLabel>ผู้สอน</FieldLabel>
+            <FieldLabel>
+              <div>
+                <div>ผู้สอน</div>
+                <div className="text-sm font-normal text-muted-foreground">
+                  {fields.length}/3 คน — กรอกชื่อผู้สอน และอีเมล name@cmu.ac.th (ห้ามซ้ำกัน)
+                </div>
+              </div>
+            </FieldLabel>
 
             <div className="grid gap-3">
               {fields.map((item, index) => (
@@ -341,7 +348,7 @@ export function AddNewCourseDialog() {
                           <Input
                             {...field}
                             type="email"
-                            placeholder="ต้องเป็นอีเมล @cmu.ac.th"
+                            placeholder="name@cmu.ac.th"
                             aria-invalid={fieldState.invalid}
                           />
 
